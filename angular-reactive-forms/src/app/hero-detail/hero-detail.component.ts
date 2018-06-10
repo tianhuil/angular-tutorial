@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { states } from '../data-model';
 
 @Component({
   selector: 'app-hero-detail',
@@ -7,9 +9,18 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
-  name = new FormControl();
-
-  constructor() { }
+  states = states;
+  constructor(private fb: FormBuilder) {
+    this.heroForm = this.fb.group({
+      name: ['', Validators.required],
+      street: '',
+      city: '',
+      state: '',
+      zip: '',
+      power: '',
+      sidekick: false
+    });
+  }
 
   ngOnInit() {
   }
