@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { states, Hero, Address } from '../data-model';
 
@@ -14,9 +14,31 @@ export class HeroDetailComponent implements OnChanges {
   @Input() hero: Hero;
 
   constructor(private fb: FormBuilder) {
+    this.createForm()
+  }
+
+  setAddresses(addresses: Address[]) {
+    const addressFGs = addresses.map(address => this.fb.group(address));
+    const addressFormArray = this.fb.array(addressFGs);
+    this.heroForm.setControl('secretLairs', addressFormArray);
+  }
+
+  get secretLairs(): FormArray {
+    return this.heroForm.get('secretLairs') as FormArray;
+  }
+
+  addLair() {
+    this.secretLairs.push(this.fb.group(new Address())));
+  }
+
+  removeLair(i) {
+    this.secretLairs.removeAt(i)
+  }
+
+  createForm() {
     this.heroForm = this.fb.group({
       name: ['', Validators.required],
-      address: this.fb.group(new Address()),
+      secretLairs: this.fb.array([]),
       power: '',
       sidekick: false
     });
@@ -25,8 +47,8 @@ export class HeroDetailComponent implements OnChanges {
   rebuildForm() {
     this.heroForm.reset({
       name: this.hero.name,
-      address: this.hero.addresses[0] || new Address()
-    })
+    });
+    this.setAddresses(this.hero.addresses);
   }
 
   ngOnChanges() {
