@@ -1,6 +1,7 @@
 <h2>Hero Detail</h2>
 <h3>Editing {{heroForm.get("name").value}}</h3>
-<form [formGroup]="heroForm">
+<div *ngFor="let name of nameChangeLog">{{name}}</div>
+<form [formGroup]="heroForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label class="center-block">Name:
       <input class="form-control" formControlName="name"/>
@@ -56,7 +57,8 @@
       </label>
     </div>
   </div>
-  <p>Name value: {{ heroForm.get('address.street').value }} </p>
+  <button type="submit" [disabled]="heroForm.pristine" class="btn btn-success">Save</button> &nbsp;
+  <button type="button" (click)="revert()" [disabled]="heroForm.pristine" class="btn btn-danger">Revert</button>
   <p>Form value: {{heroForm.value | json }}</p>
   <p>Form value: {{heroForm.valid | json }}</p>
 </form>
