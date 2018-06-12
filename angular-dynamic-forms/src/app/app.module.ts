@@ -13,7 +13,8 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-fo
     DynamicFormQuestionComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

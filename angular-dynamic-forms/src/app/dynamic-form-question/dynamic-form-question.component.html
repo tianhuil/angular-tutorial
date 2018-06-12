@@ -1,3 +1,23 @@
-<p>
-  dynamic-form-question works!
-</p>
+<div [formGroup]="form" class="form-group">
+  <label [attr.for]="question.key">
+    {{question.label}}
+  </label>
+
+  <div [ngSwitch]="question.controlType">
+    <input *ngSwitchCase="'textbox'"
+          [formControlName]="question.key"
+          [id]="question.key"
+          [type]="question.type"
+          class="form-control" />
+
+    <select [id]="question.key"
+            *ngSwitchCase="'dropdown'"
+            [formControlName]="question.key"
+            class="form-control">
+      <option *ngFor="let option of question.options"
+              [value]="option.key">
+        {{option.value}}
+      </option>
+    </select>
+  </div>
+</div>
